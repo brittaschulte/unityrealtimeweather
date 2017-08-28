@@ -9,3 +9,7 @@ Add the *WeatherScript* to an empty GameObject in your scene.
 Choose a refresh rate which specifies how often the weather data will be updated. 
 
 You can then request every information offered by the OWM API individually or implement a *OnWeatherChanged(string)* method which will get called when the main weather type has changed.
+
+## Credits
+
+Uses [SimpleJSON](http://wiki.unity3d.com/index.php/SimpleJSON) for Unity.
