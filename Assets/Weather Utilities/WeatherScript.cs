@@ -13,6 +13,12 @@ public class WeatherScript : MonoBehaviour
     [Tooltip("Refresh rate in minutes. Only values higher that 10.")]
     public int refreshrate;
 
+    [Tooltip("Location of the place to be checked for weather data. Latitude.")]
+    public float latitude;
+    [Tooltip("Location of the place to be checked for weather data. Longitude.")]
+    public float longitude;
+    
+
     private WeatherObject wo;
     private string oldweather;
     
@@ -22,7 +28,6 @@ public class WeatherScript : MonoBehaviour
         if (key == "")
         {
             Debug.LogError("ERROR: Please use valid API key");
-            key = "3fddc2962950afe300ee107b202bd736";
         }
 
         if(refreshrate < 10)
@@ -34,23 +39,21 @@ public class WeatherScript : MonoBehaviour
         wo = new WeatherObject();
         oldweather = "";
 
-        StartCoroutine("GetWeather");
-        InvokeRepeating("GetWeather", 0, refreshrate * 60);
+        StartCoroutine("UpdateWeather");
+        InvokeRepeating("UpdateWeather", 0, refreshrate * 60);
 
 
     }    
 
-    IEnumerator GetWeather()
+    IEnumerator UpdateWeather()
     {
 
-        string url = "api.openweathermap.org/data/2.5/weather?lat=35&lon=139&APPID=" + key;
+        string url = "api.openweathermap.org/data/2.5/weather?lat=" + latitude + "&lon=" + longitude + "139&APPID=" + key;
 
         WWW www = new WWW(url);
         yield return www;
 
         wo = wo.FromJSON(www.text);
-
-        Debug.Log(wo.ToString());
 
         if (!wo.getWeather_main().Equals(oldweather))
         {
